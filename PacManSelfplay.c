@@ -34,6 +34,56 @@ int X;
 int Y;
 Star star; 
 
+void init_map(int maxX, int maxY){
+	char temp;
+	FILE *fptr;
+	char filedir[200];
+	printf("Enter file directory: ");
+	scanf("%s" , filedir);
+	fptr = fopen(filedir,"r");
+	while(fptr == NULL)
+	{
+		printf("Enter file directory: ");
+		scanf("%s" , filedir);
+		fptr = fopen(filedir,"r");
+	}
+	for(int i = 0;i < maxX;i++)
+	for(int j = 0;j < maxY;j++)
+	{
+		while ((temp = getc(fptr)) != EOF)
+		{
+			if(temp == '0')
+			{
+				map[i][j].data=cEmpty;
+				X = i;
+				Y = j;
+				break;
+			}
+			else if(temp == '1')
+			{
+				map[i][j].data= cEmpty;
+				break;
+			}
+			else if(temp == '#')
+			{
+				map[i][j].data= cBlock;
+				break;
+			}
+			else if(temp == '*')
+			{
+				map[i][j].data= cFruit;
+				break;
+			}
+			else continue;
+		}
+		
+		map[i][j].cx = -1;
+		map[i][j].cy = -1;
+		map[i][j].visited = false;
+	}
+	fclose(fptr);
+}
+
 void printMap(int x , int y){
 	fore(y)printf("_");printf("__\n");
 	for(int i = 0;i < x;i++)
